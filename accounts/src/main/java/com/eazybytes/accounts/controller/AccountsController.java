@@ -4,6 +4,9 @@ import com.eazybytes.accounts.constants.AccountsConstants;
 import com.eazybytes.accounts.dto.CustomerDto;
 import com.eazybytes.accounts.dto.ResponseDto;
 import com.eazybytes.accounts.service.IAccountsService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -13,6 +16,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(
+        name = "CRUD REST API For Accounts MicroService",
+        description = "CURD Rest APIs to CREATE,UPDATE,FETCH AND DELETE Account Details in Accounts MicroService")
 @RestController
 @RequestMapping(value = "/api",produces = {MediaType.APPLICATION_JSON_VALUE})
 @AllArgsConstructor
@@ -21,6 +27,14 @@ public class AccountsController {
 
     private IAccountsService iAccountsService;
 
+    @Operation(
+            summary = "Create Account API",
+            description = "API to create a new account in the system"
+    )
+    @ApiResponse(
+            responseCode = "201",
+            description = "HTTP Status CREATED"
+    )
     @PostMapping("/create")
  public ResponseEntity<ResponseDto> createAccount(@Valid  @RequestBody CustomerDto customerDto){
         iAccountsService.createAccount(customerDto);

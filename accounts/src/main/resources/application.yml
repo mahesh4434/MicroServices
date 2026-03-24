@@ -2,6 +2,9 @@ server:
   port: 8080
 
 spring:
+  application:
+    name: accounts  # ADD THIS
+
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -11,9 +14,19 @@ spring:
   h2:
     console:
       enabled: true
+      path: /h2-console  # ADD THIS
 
   jpa:
     database-platform: org.hibernate.dialect.H2Dialect
     hibernate:
       ddl-auto: update
     show-sql: true
+
+# ADD THIS BLOCK
+springdoc:
+  api-docs:
+    enabled: true
+    path: /v3/api-docs
+  swagger-ui:
+    enabled: true
+    path: /swagger-ui.html
