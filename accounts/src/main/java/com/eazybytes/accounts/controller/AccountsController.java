@@ -2,10 +2,14 @@ package com.eazybytes.accounts.controller;
 
 import com.eazybytes.accounts.constants.AccountsConstants;
 import com.eazybytes.accounts.dto.CustomerDto;
+import com.eazybytes.accounts.dto.ErrorResponseDto;
 import com.eazybytes.accounts.dto.ResponseDto;
 import com.eazybytes.accounts.service.IAccountsService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
@@ -31,10 +35,24 @@ public class AccountsController {
             summary = "Create Account API",
             description = "API to create a new account in the system"
     )
-    @ApiResponse(
-            responseCode = "201",
-            description = "HTTP Status CREATED"
-    )
+
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "201",
+                    description = "HTTP Status CREATED"
+            ),
+            @ApiResponse(
+                    responseCode = "400",
+                    description = "HTTP Status BAD REQUEST"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status INTERNAL SERVER ERROR",
+                    content = @Content(
+                          schema =  @Schema(implementation = ErrorResponseDto.class)
+                    )
+            )
+    })
     @PostMapping("/create")
  public ResponseEntity<ResponseDto> createAccount(@Valid  @RequestBody CustomerDto customerDto){
         iAccountsService.createAccount(customerDto);
